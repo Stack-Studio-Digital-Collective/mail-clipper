@@ -1,0 +1,76 @@
+#!/bin/bash
+
+# Ensure dist directory exists
+mkdir -p dist
+
+# Function to copy files to the unpacked folder
+copy_to_unpacked() {
+    local browser=$1
+    mkdir -p "dist/unpacked_${browser}"
+    rsync -av --exclude=".git" --exclude=".gitignore" --exclude="readme.md" --exclude="dist/" --exclude="package" --exclude="$(basename "$0")" --exclude="manifest_chrome.json" --exclude="manifest_firefox.json" ./ "dist/unpacked_${browser}/"
+    # Copy the correct manifest file to the unpacked folder and rename it to manifest.json
+    if [[ "$browser" == "firefox" ]]; then
+        cp manifest_firefox.json "dist/unpacked_${browser}/manifest.json"
+    elif [[ "$browser" == "chrome" ]]; then
+        cp manifest_chrome.json "dist/unpacked_${browser}/manifest.json"
+    fi
+}
+
+# Function to create a zip file excluding specified files and directories
+create_zip() {
+    local browser=$1
+    # Temporarily rename and copy the correct manifest file
+    if [[ "$browser" == "firefox" ]]; then
+        cp manifest_firefox.json manifest.json
+    elif [[ "$browser" == "chrome" ]]; then
+        cp manifest_chrome.json manifest.json
+    fi
+
+    # Specify patterns to exclude in the zip archive
+    local exclude_patterns=(".git/*" ".gitignore" "readme.md" "package" "$(basename "$0")" "dist/*" "manifest_chrome.json" "manifest_firefox.json")
+
+    # Build the exclude arguments for the zip command
+    local exclude_args=()
+    for pattern in "${exclude_patterns[@]}"; do
+        exclude_args+=(-x "$pattern")
+    done
+
+    # Create the zip file
+    zip -r "dist/${browser}.zip" . "${exclude_args[@]}"
+
+    # Remove the temporary manifest.json file after zipping
+    rm -f manifest.json
+}
+
+# Default browser is Chrome
+browser="chrome"
+unpacked="false"
+
+# Parse command-line arguments
+while [[ "$#" -gt 0 ]]; do
+    case $1 in
+        -b|--browser)
+            if [[ "$2" =~ ^(chrome|firefox)$ ]]; then
+                browser="$2"
+            else
+                echo "Invalid browser specified. Defaulting to Chrome."
+            fi
+            shift
+            ;;
+        -u|--unpacked)
+            unpacked="true"
+            ;;
+        *) echo "Unknown parameter passed: $1"; exit 1 ;;
+    esac
+    shift
+done
+
+# If unpacked flag is set, copy files to the unpacked folder
+if [[ "$unpacked" == "true" ]]; then
+    copy_to_unpacked "$browser"
+    echo "Files copied to dist/unpacked_${browser}"
+else
+    # Create zip file for the specified browser
+    create_zip "$browser"
+    echo "Extension packaged for $browser in dist/${browser}.zip"
+fi

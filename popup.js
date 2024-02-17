@@ -1,7 +1,36 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const storage = getStorage();
   const emailList = document.getElementById("emailList");
+
   let emails = []; // To store fetched emails
   let isExpanded = false; // Track if the list is expanded
+
+  if (!storage) {
+    console.warn("Storage API not available.");
+
+    const message = document.createElement("p");
+
+    message.textContent = "Storage API not available.";
+
+    emailList.appendChild(message);
+
+    return;
+  }
+
+  storage.get("emails", []).then(function (result) {
+    // Firefox returns undefined if the key doesn't exist
+    if (!result || !result.emails) {
+      emails = [];
+    } else {
+      emails = result.emails;
+    }
+
+    displayEmails();
+  });
+
+  document.getElementById("searchBox").addEventListener("input", function () {
+    displayEmails(this.value);
+  });
 
   function displayEmails(filter = "") {
     emailList.innerHTML = ""; // Clear current list
@@ -70,20 +99,56 @@ document.addEventListener("DOMContentLoaded", function () {
     deleteBtn.onclick = function (event) {
       event.stopPropagation();
       emails = emails.filter((e) => e !== email);
-      chrome.storage.sync.set({ emails: emails }, () => displayEmails());
+      const storage = getStorage();
+
+      if (!storage) {
+        console.warn("Storage API not available.");
+        return;
+      }
+
+      storage.set("emails", emails).then(() => displayEmails());
     };
 
     listItem.appendChild(deleteBtn);
 
     return listItem;
   }
-
-  chrome.storage.sync.get({ emails: [] }, function (result) {
-    emails = result.emails.reverse(); // Reverse to show most recent first
-    displayEmails();
-  });
-
-  document.getElementById("searchBox").addEventListener("input", function () {
-    displayEmails(this.value);
-  });
 });
+
+function getStorage() {
+  return new Storage();
+}
+
+class Storage {
+  async get(key, defaultValue = null) {
+    if (window.browser && window.browser.storage) {
+      const result = await (browser.storage.sync || browser.storage.local).get(
+        key
+      );
+
+      return result || { [key]: defaultValue };
+    } else if (chrome && chrome.storage) {
+      const obj = { [key]: defaultValue };
+
+      return new Promise((resolve) => {
+        chrome.storage.sync.get(obj, function (result) {
+          resolve(result);
+        });
+      });
+    }
+  }
+
+  async set(key, value) {
+    if (window.browser && window.browser.storage) {
+      return (browser.storage.sync || browser.storage.local).set({
+        [key]: value,
+      });
+    } else if (chrome && chrome.storage) {
+      const obj = { [key]: value };
+
+      return new Promise((resolve) => {
+        chrome.storage.sync.set(obj, resolve);
+      });
+    }
+  }
+}
