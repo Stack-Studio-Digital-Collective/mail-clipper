@@ -1,10 +1,10 @@
 # Clipboard Mailer
 
-Clipboard Mailer is a chrome extension that copies email links (`<a href="mailto:me@stackstudio.dev">me@stackstudio.dev</a>`) to your clipboard.
+Clipboard Mailer is a Chrome Extension & Firefox Addon that copies email links (`<a href="mailto:me@stackstudio.dev">me@stackstudio.dev</a>`) to your clipboard.
 
-## In the Chrome Webstore
+## Download
 
-`// todo: add link upon approval`
+`// todo: add links upon approval`
 
 ## Running Locally
 
