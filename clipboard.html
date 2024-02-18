@@ -95,6 +95,13 @@
         padding: 0 5px;
       }
 
+      #emailListContainer {
+        max-height: 400px;
+        overflow-y: auto;
+        border-bottom: 1px solid #ddd;
+        padding-bottom: 8px;
+      }
+
       #emailList .page-button {
         width: 100%;
         padding: 10px;
@@ -109,6 +116,17 @@
       #emailList .page-button:hover {
         background-color: #e9e9e9;
       }
+
+      #stackstudio a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        column-gap: 4px;
+        padding: 8px 0 0;
+        text-decoration: none;
+        font-style: italic;
+        color: #bbb;
+      }
     </style>
   </head>
   <body>
@@ -121,6 +139,18 @@
 
     <div id="emailListContainer">
       <ul id="emailList"></ul>
+    </div>
+
+    <div id="stackstudio">
+      <a href="https://stackstudio.dev" target="_blank">
+        <img
+          src="https://stackstudio.dev/assets/images/transparent-logo-cropped.png"
+          alt="StackStudio Logo"
+          width="20px"
+          height="20px"
+        />
+        StackStudio
+      </a>
     </div>
     <script src="popup.js"></script>
   </body>
