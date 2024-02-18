@@ -8,9 +8,21 @@ Clipboard Mailer is a Chrome Extension & Firefox Addon that copies email links (
 
 ## Running Locally
 
-1. Clone repo
-2. Enable developer mode in Chrome
-3. Load Extension
+The `package` script will create a zip file ("packed extension") for chrome by default (`$ ./package`).
+
+### Chrome
+
+Chrome loads "unpacked" (unzipped) extension for development.
+
+To create an unpacked version for Chrome run `./package --unpacked` or `./package -u`.
+
+### Firefox
+
+Firefox requires a "packed" (zipped)
+
+To create a packed bundle for Firefox run `./package --browser firefox` or `./package -b firefox`
+
+## Developing
 
 [Chrome Extension Hello World Tutorial](https://developer.chrome.com/docs/extensions/get-started/tutorial/hello-world)
 
