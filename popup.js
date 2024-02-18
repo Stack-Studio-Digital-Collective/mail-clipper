@@ -1,3 +1,5 @@
+import getStorage from "./storage.js";
+
 document.addEventListener("DOMContentLoaded", function () {
   const storage = getStorage();
   const emailList = document.getElementById("emailList");
@@ -114,41 +116,3 @@ document.addEventListener("DOMContentLoaded", function () {
     return listItem;
   }
 });
-
-function getStorage() {
-  return new Storage();
-}
-
-class Storage {
-  async get(key, defaultValue = null) {
-    if (window.browser && window.browser.storage) {
-      const result = await (browser.storage.sync || browser.storage.local).get(
-        key
-      );
-
-      return result || { [key]: defaultValue };
-    } else if (chrome && chrome.storage) {
-      const obj = { [key]: defaultValue };
-
-      return new Promise((resolve) => {
-        chrome.storage.sync.get(obj, function (result) {
-          resolve(result);
-        });
-      });
-    }
-  }
-
-  async set(key, value) {
-    if (window.browser && window.browser.storage) {
-      return (browser.storage.sync || browser.storage.local).set({
-        [key]: value,
-      });
-    } else if (chrome && chrome.storage) {
-      const obj = { [key]: value };
-
-      return new Promise((resolve) => {
-        chrome.storage.sync.set(obj, resolve);
-      });
-    }
-  }
-}
