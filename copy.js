@@ -1,5 +1,3 @@
-console.log("Copy.js loaded");
-
 document.addEventListener("click", function (e) {
   // Check if the clicked element is a mailto link
   if (e.target.tagName === "A" && e.target.href.startsWith("mailto:")) {
@@ -80,14 +78,23 @@ function getStorage() {
   return new Storage();
 }
 
+/**
+ * Storage class to interact with the browser's storage API
+ */
 class Storage {
+  /**
+   * Get value from storage
+   * @param {string} key Value to get from storage
+   * @param {any} defaultValue Default value to return if key is not found
+   * @returns {Promise<{[key: string]: any}>} Promise that resolves with the value from storage
+   */
   async get(key, defaultValue = null) {
     if (window.browser && window.browser.storage) {
-      const result = await (
-        browser.storage.managed || browser.storage.local
-      ).get(key);
+      const result = await (browser.storage.sync || browser.storage.local).get(
+        key
+      );
 
-      return result[key] || defaultValue;
+      return result || { [key]: defaultValue };
     } else if (chrome && chrome.storage) {
       const obj = { [key]: defaultValue };
 
@@ -99,9 +106,15 @@ class Storage {
     }
   }
 
+  /**
+   * Set value in storage
+   * @param {string} key The key to set in storage
+   * @param {any} value The value to set in storage
+   * @returns {Promise<void>} Promise that resolves when the value is set in storage
+   */
   set(key, value) {
     if (window.browser && window.browser.storage) {
-      return (browser.storage.managed || browser.storage.local).set({
+      return (browser.storage.sync || browser.storage.local).set({
         [key]: value,
       });
     } else if (chrome && chrome.storage) {

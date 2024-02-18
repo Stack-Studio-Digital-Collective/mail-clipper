@@ -119,7 +119,16 @@ function getStorage() {
   return new Storage();
 }
 
+/**
+ * Storage class to interact with the browser's storage API
+ */
 class Storage {
+  /**
+   * Get value from storage
+   * @param {string} key Value to get from storage
+   * @param {any} defaultValue Default value to return if key is not found
+   * @returns {Promise<{[key: string]: any}>} Promise that resolves with the value from storage
+   */
   async get(key, defaultValue = null) {
     if (window.browser && window.browser.storage) {
       const result = await (browser.storage.sync || browser.storage.local).get(
@@ -138,7 +147,13 @@ class Storage {
     }
   }
 
-  async set(key, value) {
+  /**
+   * Set value in storage
+   * @param {string} key The key to set in storage
+   * @param {any} value The value to set in storage
+   * @returns {Promise<void>} Promise that resolves when the value is set in storage
+   */
+  set(key, value) {
     if (window.browser && window.browser.storage) {
       return (browser.storage.sync || browser.storage.local).set({
         [key]: value,
