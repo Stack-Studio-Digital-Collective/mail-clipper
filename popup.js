@@ -116,7 +116,12 @@ document.addEventListener("DOMContentLoaded", function () {
 });
 
 function getStorage() {
-  return new Storage();
+  if (
+    (window.browser && window.browser.storage) ||
+    (chrome && chrome.storage)
+  ) {
+    return new Storage();
+  }
 }
 
 /**
