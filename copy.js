@@ -74,6 +74,10 @@ function showToast(message) {
   }, 4500); // Adjusted time to account for fade-out duration
 }
 
+/**
+ * Get the storage instance
+ * @returns {Storage|undefined} Storage instance
+ */
 function getStorage() {
   if (
     (window.browser && window.browser.storage) ||

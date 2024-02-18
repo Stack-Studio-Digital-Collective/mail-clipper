@@ -115,6 +115,10 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+/**
+ * Get the storage instance
+ * @returns {Storage|undefined} Storage instance
+ */
 function getStorage() {
   if (
     (window.browser && window.browser.storage) ||
