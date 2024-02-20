@@ -4,18 +4,14 @@
   "description": "Copy email links to your clipboard instead of opening the mail app.",
   "version": "1.0",
   "icons": {
-    "48": "icon.png"
+    "48": "icon_128.png"
   },
-  "permissions": ["activeTab", "clipboardWrite", "storage", "<all_urls>"],
+  "permissions": ["clipboardWrite", "storage", "<all_urls>"],
   "browser_action": {
     "default_popup": "clipboard.html",
     "default_icon": {
-      "48": "icon.png"
+      "48": "icon_128.png"
     }
-  },
-  "background": {
-    "scripts": ["background.js"],
-    "persistent": false
   },
   "content_scripts": [
     {
