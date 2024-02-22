@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Clipboard Mailer",
+  "name": "Mail Clipper",
   "description": "Copy email links to your clipboard instead of opening the mail app.",
-  "version": "1.0",
+  "version": "1.0.0",
   "action": {
     "default_popup": "clipboard.html",
     "default_icon": "icon_128.png"
