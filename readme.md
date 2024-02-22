@@ -30,11 +30,11 @@ To create a packed bundle for Firefox run `./package --browser firefox` or `./pa
 
 ## Copy on click
 
-![Clicked Email ](https://stackstudio.dev/assets/images/chrome%20screenshot%202.png)
+![Clicked Email ](https://stackstudio.dev/assets/images/Mail%20Clipper%202.png)
 
 ## Saved email addresses
 
-![Open Popup Screenshot](https://stackstudio.dev/assets/images/chrome%20screenshot%201.png)
+![Open Popup Screenshot](https://stackstudio.dev/assets/images/Mail%20Clipper%201.png)
 
 # Contributing
 
