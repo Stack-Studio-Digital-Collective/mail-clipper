@@ -4,7 +4,8 @@ Mail Clipper is a Chrome Extension & Firefox Addon that copies email links (`<a 
 
 ## Download
 
-`// todo: add links upon approval`
+- [Chrome](https://chromewebstore.google.com/detail/mail-clipper/nbbecejgjjkmaddbhpmkbomjmhihafba?pli=1)
+- [Firefox](https://addons.mozilla.org/en-US/firefox/addon/mail-clipper/)
 
 ## Running Locally
 
